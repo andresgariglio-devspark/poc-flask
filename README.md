@@ -22,6 +22,7 @@ python runserver.py
 ## Rest API examples
 GET
 ```
+curl http://localhost:5000/persons
 curl http://localhost:5000/persons/{ID}
 ```
 
