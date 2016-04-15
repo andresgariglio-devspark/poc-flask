@@ -7,8 +7,8 @@ from bson.objectid import ObjectId
 
 
 parser = reqparse.RequestParser()
-parser.add_argument('firstName', type=str, help='The first name')
-parser.add_argument('lastName', type=str, help='The last name')
+parser.add_argument('firstName', required=True, type=str, help='The first name is required')
+parser.add_argument('lastName', required=True, type=str, help='The last name is required')
 
 class Persons(restful.Resource):
     def get(self):
@@ -30,7 +30,12 @@ class Person(restful.Resource):
         mongo.db.person.remove({"_id": person_id})
         return '', 204
 
-
+    def put(self, person_id):
+        mongo.db.person.find_one_or_404({"_id": person_id})
+        args = parser.parse_args()
+        print args
+        mongo.db.person.update({"_id": person_id}, args);
+        return args, 201
 
 
 class Root(restful.Resource):
